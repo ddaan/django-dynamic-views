@@ -38,18 +38,25 @@ Add django-dynamic-views to installed apps
 Example
 =====================
 
-### models.py::
+models.py
+---------
+
+::
 
     class Article(models.Model):
         name = models.Charfield(max_length=200)
         description = models.Charfield(max_length=200)
 
-### views.py::
+views.py
+--------
+::
 
     class ArticleCRUDView(dynamicviews.DynamicCRUDView):
         model = Article
 
-### urls.py:::
+urls.py
+-------
+::
 
     urlpatterns += ArticleCRUDView.urls()
 

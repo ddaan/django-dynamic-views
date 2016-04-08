@@ -38,66 +38,58 @@ Add django-dynamic-views to installed apps
 Example
 =====================
 
-### models.py
-```python
-class Article(models.Model):
-    name = models.Charfield(max_length=200)
-    description = models.Charfield(max_length=200)
-```
+### models.py::
 
-### views.py
-```
-class ArticleCRUDView(dynamicviews.DynamicCRUDView):
-    model = Article
-```
+    class Article(models.Model):
+        name = models.Charfield(max_length=200)
+        description = models.Charfield(max_length=200)
 
-### urls.py
-```python
-urlpatterns += ArticleCRUDView.urls()
-```
+### views.py::
+
+    class ArticleCRUDView(dynamicviews.DynamicCRUDView):
+        model = Article
+
+### urls.py:::
+
+    urlpatterns += ArticleCRUDView.urls()
 
 You'll point your browser to /article/list/ and a basic list with Create / Read / Update and Delete
 buttons will be displayed.
 
-So on the background it will create the following urls:
-```
-/article/list/
-/article/create/
-/article/(?P<pk>[-\w]+)/update/
-/article/(?P<pk>[-\w]+)/read/
-/article/(?P<pk>[-\w]+)/delete/
-```
+So on the background it will create the following urls::
 
-If you don't care for some of the urls you can modfiy the _links_ atribute on the CrudView:
+    /article/list/
+    /article/create/
+    /article/(?P<pk>[-\w]+)/update/
+    /article/(?P<pk>[-\w]+)/read/
+    /article/(?P<pk>[-\w]+)/delete/
 
-```python
-class ArticleCRUDView(dynamicviews.DynamicCRUDView):
-    model = Article
-    links = ['list', 'read']
-```
+If you don't care for some of the urls you can modfiy the _links_ atribute on the CrudView::
 
-This will result in the following urls:
+    class ArticleCRUDView(dynamicviews.DynamicCRUDView):
+        model = Article
+        links = ['list', 'read']
 
-```
-/article/list/
-/article/(?P<pk>[-\w]+)/read/
-```
+This will result in the following urls::
+
+    /article/list/
+    /article/(?P<pk>[-\w]+)/read/
 
 So this will give you a basic list with a Read button next to it.
 
 ## Override the default classes
 You can define which class the CRUD uses, so you can easily modify it's appearance and behaviour
 
-```python
-class ArticleDetailView(DetailView):
-    template_name = 'articles/article_detail.html'
+::
+
+    class ArticleDetailView(DetailView):
+        template_name = 'articles/article_detail.html'
 
 
-class ArticleCRUDView(dynamicviews.DynamicCRUDView):
-    model = Article
-    links = ['list', 'read']
-    read_class = ArticleDetail
-```
+    class ArticleCRUDView(dynamicviews.DynamicCRUDView):
+        model = Article
+        links = ['list', 'read']
+        read_class = ArticleDetail
 
 
 

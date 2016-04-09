@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load get_attribute %}
+{% block content %}
+    <table class="table table-striped">
+    {% for field in field_names %}
+        <tr>
+            <th>{{ field }}</th>
+            <td>{{ object|get_attribute:field }}
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}

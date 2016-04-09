@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row" id="formcontainer">
+        {% block form_content_top %}{% endblock %}
+                {% block form %}
+                    <form method="post" action="{% block form_action_url %}{% endblock %}"
+                          class="{% block form_class %}{% endblock %}" {% block form_tag_extra %}{% endblock %}>
+                        {% block form_extra_content %}{% endblock %}
+                        {% block form_content %}
+                            {% csrf_token %}
+                            <table class="table">
+                                {% block form_fields %}
+                                    {{ form.as_table }}
+                                {% endblock %}
+                            </table>
+
+                            {% block form_buttons %}<input class="btn btn-success" type="submit" value=" Submit "/>{% endblock %}
+                        {% endblock %}
+                    </form>
+                {% endblock %}
+            </div>
+        {% block form_content_bottom %}{% endblock %}
+    </div>
+{% endblock %}

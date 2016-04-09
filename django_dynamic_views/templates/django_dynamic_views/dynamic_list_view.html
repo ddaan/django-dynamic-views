@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load get_range %}
+{% load get_attribute %}
+{% load get_field_filter %}
+{% block content %}
+    {% block list %}
+        {% block list_top %}
+            {% block search_box %}
+                {% if search %}
+                        <form class="ui form" id="quick_search_form" method="get" action="{% block search_url %}{% endblock %}">
+                            <input name="search_phrase" type="text" placeholder="Search..." value="{{ search_phrase }}" id="id_search_phrase_accounts">
+                        </form>
+                {% endif %}
+            {% endblock %}
+            {% block filter_values %}
+                {% if filter_values %}
+                    <form method="get" id="filter-list-form">
+                    {% for filter, name, values in filter_values %}
+                        <span>{{ name }}</span>
+                        <select name="filter-{{ filter }}" class="ui normal dropdown">
+                            <option value="---">---</option>
+                            {% for value_key, value in values %}
+                                <option value="{{ value_key }}" {% if value_key == filter_kwargs|get_attribute:filter|add:0 or value_key == filter_kwargs|get_attribute:filter %}selected{% endif %}>{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    {% endfor %}
+                    </form>
+                {% endif %}
+            {% endblock %}
+            {% block create_box %}
+                {% if create_link %}
+                    <a href="{% url create_link %}" class="btn btn-primary"><i class="add icon"></i>{{ create_text }}</a>
+                {% endif %}
+            {% endblock %}
+        {% endblock %}
+
+        {% block list_content %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                    {% block list-head %}
+                        {% block list-tablehead-before-row %}{% endblock %}
+                            {% block list-tablehead %}
+                                {% for field_name in field_names %}
+                                    {% if field_name in order_fields %}
+                                        <th id="{{ field_name }}" class="sorted {% if order_by == field_name and sort == 'ASC' %}ascending{% elif order_by == field_name and sort == 'DESC' %}descending{% endif %}"><a href="{{ paginate_url }}?paginate_by={{ paginator.per_page }}&order_by={{ field_name }}&sort={{ sort }}">{{ field_verbose_names|get_attribute:field_name }}</a></th>
+                                    {% else %}
+                                        <th id="{{ field_name }}">{{ field_verbose_names|get_attribute:field_name }}</th>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endblock %}
+                        {% block list-tablehead-after-row %}{% endblock %}
+                    {% endblock %}
+                    </tr>
+                </thead>
+                <tbody>
+                {% block list-tablebody %}
+                    {% for object in object_list %}
+                        <tr class="{% cycle 'odd' 'even' %}">
+                            {% block list-row %}
+                                {% for field_name in field_names %}
+                                    <td>{% field_value object field_name convert_field_values view %}</td>
+                                {% endfor %}
+                            {% endblock %}
+                        </tr>
+                    {% endfor %}
+                {% endblock %}
+                </tbody>
+            </table>
+
+            {% block list-paginator %}
+                {% if paginator %}
+                <div class="ui grid">
+                    <div class="left floated left aligned eleven wide column">
+                        <div class="ui pagination menu">
+                            <a href="?paginate_by={{ paginator.per_page  }}&page=1" class="icon item" id="paginator_first_id"><i class="angle double left icon"></i></a>
+                             {% if page_obj.has_previous %}
+                                <a class="icon item" href="{{ paginate_url }}?paginate_by={{ paginator.per_page  }}&page={{ page_obj.previous_page_number }}"><i class="angle left icon"></i></a>
+                            {% else %}
+                                <div class="disabled item">
+                                    <i class="angle left icon"></i>
+                                </div>
+                            {% endif %}
+                            {% for i in nice_page_range %}
+                                <a href="{{ paginate_url }}?paginate_by={{ paginator.per_page  }}&page={{i}}" class="{% if page_obj.number == i %}active {% endif %}icon item">
+                                    {{i}}
+                                </a>
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                                <a class="icon item" href="{{ paginate_url }}?paginate_by={{ paginator.per_page  }}&page={{ page_obj.next_page_number }}"><i class="angle right icon"></i></a>
+                            {% else %}
+                                <div class="disabled item">
+                                    <i class="angle right icon"></i>
+                                </div>
+                            {% endif %}
+                            <a id="paginator_last_id" class="icon item" href="{{ paginate_url }}?paginate_by={{ paginator.per_page  }}&page={{ page_obj.paginator.num_pages }}"><i class="angle double right icon"></i></a></li>
+                        </div>
+                    </div>
+                    <div class="left floated left aligned eleven wide column">
+                        {% block footer_buttons %}
+                        {% endblock %}
+                    </div>
+                    <div class="right floated right aligned five wide column">
+                        total items: {{ paginator.count }} <br>
+                        page  {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </div>
+                </div>
+                {% endif %}
+            {% endblock %}
+        {% endblock %}
+    {% endblock %}
+{% endblock %}

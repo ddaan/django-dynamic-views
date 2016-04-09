@@ -1,0 +1,40 @@
+{% extends 'django_dynamic_views/dynamic_list_view.html' %}
+
+{% block list-tablehead-after-row %}
+     {% if edit_link or delete_link or extra_links or detail_link %}<th></th>{% endif %}
+{% endblock %}
+
+
+{% block list-tablebody %}
+    {% for object in object_list %}
+        <tr class="{% cycle 'odd' 'even' %}">
+            {% block list-row %}
+                {{ block.super }}
+            {% endblock %}
+            {% block action_buttons %}
+                {% if edit_link or delete_link or extra_links or detail_link%}
+                    <td class="action_buttons">
+                        <span class="default_buttons">
+                            {% if read_link %}
+                                <a class="btn btn-primary" id="btn_read_{{ object.pk }}" href="{% url read_link object.pk %}"><i class="search icon"></i> read</a>
+                            {% endif %}
+                            {% if update_link %}
+                                <a class="btn btn-primary" id="btn_update_{{ object.pk }}" href="{% url update_link object.pk %}"><i class="edit icon"></i> update</a>
+                            {% endif %}
+                            {% if delete_link %}
+                                <a class="btn btn-primary" id="btn_delete_{{ object.pk }}" href="{% url delete_link object.pk %}"><i class="trash icon"></i> delete</a>
+                            {% endif %}
+                        </span>
+                        <span class="extra_buttons">
+                            {% block extra_links %}
+                                {% for extra_link, link_description in extra_links.items %}
+                                    <a id="btn_{{ extra_link }}_{{ object.pk }}" {% if open_links_in_new_window %}target="_blank" {% endif %}href="{% url extra_link object.pk %}" class="btn btn-success">{{ link_description }}</a>
+                                {% endfor %}
+                            {% endblock %}
+                        </span>
+                    </td>
+                {% endif %}
+            {% endblock %}
+        </tr>
+    {% endfor %}
+{% endblock %}

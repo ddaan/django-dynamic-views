@@ -12,7 +12,7 @@
                 {{ block.super }}
             {% endblock %}
             {% block action_buttons %}
-                {% if edit_link or delete_link or extra_links or detail_link%}
+                {% if update_link or delete_link or extra_links or read_link%}
                     <td class="action_buttons">
                         <span class="default_buttons">
                             {% if read_link %}

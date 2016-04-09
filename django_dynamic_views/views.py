@@ -483,11 +483,9 @@ class DynamicCRUDView(object):
         kwargs = self.get_view_kwargs()
         kwargs['field_names'] = self.field_names
         kwargs['verbose_names'] = self.verbose_names
-        kwargs['update_link'] = self.link_name('update')
-        kwargs['read_link'] = self.link_name('read')
-        kwargs['create_link'] = self.link_name('create')
-        kwargs['create_text'] = self.link_name('create')
-        kwargs['delete_link'] = self.link_name('delete')
+        for link in self.links:
+            if link != 'list':
+                kwargs['{}_link'.format(link)] = self.link_name(link)
         return kwargs
 
     def get_read_view_kwargs(self):

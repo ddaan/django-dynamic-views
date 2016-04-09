@@ -8,6 +8,7 @@ class FooCRUD(DynamicCRUDView):
     """
     model = Foo
     field_names = ['name', 'description']
+    links = ['list', 'read', 'update']
 
 
 class FooList(DynamicListView):

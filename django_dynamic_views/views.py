@@ -551,6 +551,9 @@ class DynamicCRUDView(object):
                 link_kwargs = getattr(self, '{}_kwargs_regexp'.format(link))
                 url_check += '{}/'.format(link_kwargs)
 
+            # Add start and end of line to regex pattern
+            url_check = '^%s$' % url_check
+
             action_cls = getattr(self, '{}_class'.format(link))
             urls.append(url(url_check, action_cls, name=self.link_name(link)))
 

@@ -1,0 +1,10 @@
+{% extends 'django_dynamic_views/dynamic_form.html' %}
+
+{% block form_content_top %}
+    <p>Are you sure you want to delete {{ object }}?</p>
+    <table class="table" style="width: auto">
+        {% for k, v in to_delete_list %}
+        <tr><th>{{ k }}</th><td>{{ v }}</td></tr>
+        {% endfor %}
+    </table>
+{% endblock %}

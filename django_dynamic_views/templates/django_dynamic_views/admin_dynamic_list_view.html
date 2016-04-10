@@ -1,0 +1,34 @@
+{% extends 'django_dynamic_views/dynamic_list_view.html' %}
+{% load get_attribute %}
+
+{% block list-tablehead-after-row %}
+    {% if links %}
+        {% for link in object_links%}<th></th>{% endfor %}
+    {% endif %}
+{% endblock %}
+
+
+{% block list-tablebody %}
+    {% for object in object_list %}
+        <tr class="{% cycle 'odd' 'even' %}">
+            {% block list-row %}
+                {{ block.super }}
+            {% endblock %}
+            {% block action_buttons %}
+                {% if object_links %}
+                    {% for link in object_links %}
+                        <td class="action_buttons">
+                        {% with link_names|get_attribute:link as link_name %}
+                            <a class="btn btn-primary"
+                               id="btn_{{ link }}_{{ object.pk }}"
+                               href="{% url view|get_attribute:link_name object.pk %}">
+                                {{ link }}
+                            </a>
+                        {% endwith %}
+                        </td>
+                    {% endfor %}
+                {% endif %}
+            {% endblock %}
+        </tr>
+    {% endfor %}
+{% endblock %}

@@ -24,14 +24,17 @@ Install django-dynamic-views::
 
 Then use it in a project::
 
-    import django_dynamic_views
+    from django_dynamic_views.views import DynamicListView, DynamicCRUDView, DynamicUpdateView, DynamicCreateView
 
 
-```
-pip install django-dynamic-views
-```
 
-Add django-dynamic-views to installed apps
+Add django-dynamic-views to installed apps::
+
+    INSTALLED_APPS = (
+        ...
+        'django_dynamic_views',
+        ...
+    )
 
 
 
@@ -48,7 +51,7 @@ models.py
         name = models.Charfield(max_length=200)
         description = models.Charfield(max_length=200)
 
-Define a Crudview by extending DynamicCRUDView and set the model as a attribute
+Define a Crud view by extending DynamicCRUDView and set the model as a attribute
 
 views.py
 ::
@@ -120,7 +123,7 @@ Credits
 Tools used in rendering this package:
 
 *  Cookiecutter_
-*  `cookiecutter-pypackage`_
+*  cookiecutter-pypackage_
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _`cookiecutter-djangopackage`: https://github.com/pydanny/cookiecutter-djangopackage
+.. _cookiecutter-djangopackage: https://github.com/pydanny/cookiecutter-djangopackage

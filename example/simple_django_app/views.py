@@ -9,6 +9,7 @@ class BookCRUD(DynamicCRUDView):
     model = Book
     field_names = ['title', 'description', 'author', 'genre', 'pages']
     links = ['list', 'create', 'read', 'update']
+    paginate_by = 5
 
 
 class GenreCRUD(DynamicCRUDView):

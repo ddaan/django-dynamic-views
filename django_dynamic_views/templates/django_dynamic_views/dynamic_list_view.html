@@ -101,47 +101,48 @@
                 {% endblock %}
                 </tbody>
             </table>
-
             {% block list-paginator %}
-                {% if paginator %}
-                <div class="ui grid">
-                    <div class="left floated left aligned eleven wide column">
-                        <div class="ui pagination menu">
-                            <a href="?paginate_by={{ paginator.per_page  }}&page=1" class="icon item" id="paginator_first_id"><i class="angle double left icon"></i></a>
-                             {% if page_obj.has_previous %}
-                                <a class="icon item" href="{{ paginate_url }}?paginate_by={{ paginator.per_page  }}&page={{ page_obj.previous_page_number }}"><i class="angle left icon"></i></a>
-                            {% else %}
-                                <div class="disabled item">
-                                    <i class="angle left icon"></i>
-                                </div>
+                <div class="table-footer row">
+                    {% if paginator %}
+                        <ul class="pagination pull-left">
+                            <li>
+                                <a href="?paginate_by={{ paginator.per_page  }}&page=1" class="icon item" id="paginator_first_id">&lt;&lt;</a>
+                            </li>
+                            {% if page_obj.has_previous %}
+                                <li><a href="{{ paginate_url }}?paginate_by={{ paginator.per_page  }}&page={{ page_obj.previous_page_number }}">&lt;</a></li>
                             {% endif %}
                             {% for i in nice_page_range %}
-                                <a href="{{ paginate_url }}?paginate_by={{ paginator.per_page  }}&page={{i}}" class="{% if page_obj.number == i %}active {% endif %}icon item">
+                                <li{% if page_obj.number == i %} class="active"{% endif %}>
+                                    <a href="{{ paginate_url }}?paginate_by={{ paginator.per_page  }}&page={{i}}">
                                     {{i}}
-                                </a>
+                                    </a>
+                                </li>
                             {% endfor %}
 
                             {% if page_obj.has_next %}
-                                <a class="icon item" href="{{ paginate_url }}?paginate_by={{ paginator.per_page  }}&page={{ page_obj.next_page_number }}"><i class="angle right icon"></i></a>
-                            {% else %}
-                                <div class="disabled item">
-                                    <i class="angle right icon"></i>
-                                </div>
+                                <li><a href="{{ paginate_url }}?paginate_by={{ paginator.per_page  }}&page={{ page_obj.next_page_number }}">&gt;</a></li>
                             {% endif %}
-                            <a id="paginator_last_id" class="icon item" href="{{ paginate_url }}?paginate_by={{ paginator.per_page  }}&page={{ page_obj.paginator.num_pages }}"><i class="angle double right icon"></i></a></li>
+                            <li>
+                                <a href="{{ paginate_url }}?paginate_by={{ paginator.per_page  }}&page={{ page_obj.paginator.num_pages }}">&gt;&gt;</a>
+                            </li>
+                        </ul>
+                        {% block table-footer-right %}
+                        <div class="pull-right">
+                            {% block footer_buttons %}
+                            {% endblock %}
                         </div>
-                    </div>
-                    <div class="left floated left aligned eleven wide column">
-                        {% block footer_buttons %}
+                        <div class="pull-right">
+                        <p>
+                            total items: {{ paginator.count }} <br />
+                            page  {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                        </p>
+                        </div>
                         {% endblock %}
-                    </div>
-                    <div class="right floated right aligned five wide column">
-                        total items: {{ paginator.count }} <br>
-                        page  {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-                    </div>
-                </div>
-                {% endif %}
+
+                    {% endif %}
+
             {% endblock %}
+            </div>
         {% endblock %}
     {% endblock %}
 {% endblock %}

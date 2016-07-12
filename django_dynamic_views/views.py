@@ -498,6 +498,8 @@ class DynamicCRUDView(object):
         kwargs['field_names'] = self.field_names
         kwargs['links'] = self.links
         kwargs['verbose_names'] = self.verbose_names
+        kwargs['paginate_by'] = getattr(self, 'paginate_by', None)
+
         for link in self.links:
             if link != 'list':
                 kwargs['{}_link'.format(link)] = self.link_name(link)

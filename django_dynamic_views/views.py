@@ -233,7 +233,7 @@ class DynamicListView(ListView):
                     try:
                         selected_verbose = dict(values).get(int(sel_key))
                     except Exception as e:
-                        print e
+                        pass
 
             filter_values.append(
                 (filter_key, self.verbose_names.get(filter_name), values, selected_verbose)
@@ -502,7 +502,6 @@ class DynamicCRUDView(object):
             if link != 'list':
                 kwargs['{}_link'.format(link)] = self.link_name(link)
 
-        print kwargs
         return kwargs
 
     def get_read_view_kwargs(self):

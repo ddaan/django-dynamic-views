@@ -4,9 +4,9 @@ Usage
 
 To use django-dynamic-views in a project::
 
-    import django_dynamic_views
+    from django_dynamic_views.views import DynamicListView, DynamicCRUDView, DynamicUpdateView, DynamicCreateView
 
-As it's possibe to override a lot of the standard behviour on a view and template level we start with an easy example.
+As it's possible to override a lot of the standard behaviour on a view and template level we start with an easy example.
 It will use the easiest template and view code possible:
 
 **Models**
@@ -71,7 +71,7 @@ displaying and set an icon:
 
     from django.contrib.humanize.templatetags.humanize import naturalday
 
-    class BlogList(LoginRequiredMixin, DynamicAdminListView):
+    class BlogList(LoginRequiredMixin, DynamicCRUDView):
         model = Blog
         title = 'Blog items'
         icon = 'newspaper'  # use name that exists in font awesome icon set
@@ -108,9 +108,8 @@ displaying and set an icon:
 
 **Templates**
 
-The most simple use cases will be handled for you by the default list templates: 'base_list.html' and
-'base_admin_list.html'.
-
+The most simple use cases will be handled for you by the default list templates: 'django_dynamic_views/base_list.html' and
+'django_dynamic_views/admin_dynamic_list_view.html'.
 
 However, if you want or need to change the visual representation of a field, row or other aspects of
 the list are rendered you can override on a couple of places.
@@ -125,7 +124,7 @@ Now define youw own template with:
 
 .. code-block:: django
 
-    {% extends "base.html" %}
+    {% extends "django_dynamic_views/base_list.html" %}
 
     {% block list-row %}
         <td>

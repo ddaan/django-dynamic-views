@@ -12,11 +12,12 @@ try:
                 "ENGINE": "django.db.backends.sqlite3",
             }
         },
-        ROOT_URLCONF="django_dynamic_views.urls",
+        ROOT_URLCONF="example.simple_django_app.urls",
         INSTALLED_APPS=[
             "django.contrib.auth",
             "django.contrib.contenttypes",
             "django.contrib.sites",
+            "example.simple_django_app",
             "django_dynamic_views",
         ],
         SITE_ID=1,

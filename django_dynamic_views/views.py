@@ -119,13 +119,13 @@ class DynamicListView(ListView):
     def get_paginate_by(self, queryset):
         """
         Returns the numbers of pages per page in the list.
-        First tries the GET parameter, then the session(userpreference), then the value defined
+        First tries the GET parameter, then the value defined
         in the class attribute
 
         :return:
         """
 
-        return self.request.GET.get('paginate_by', self.request.session.get('paginate_by', self.paginate_by))
+        return self.request.GET.get('paginate_by', self.paginate_by)
 
     @property
     def search_phrase(self):

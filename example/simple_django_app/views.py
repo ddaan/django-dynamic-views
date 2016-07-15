@@ -1,5 +1,5 @@
 from django_dynamic_views.views import DynamicListView, DynamicCRUDView, DynamicUpdateView, DynamicCreateView
-from models import Book, Genre, Author
+from .models import Book, Genre, Author
 
 
 class BookCRUD(DynamicCRUDView):

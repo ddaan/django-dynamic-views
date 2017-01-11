@@ -297,7 +297,7 @@ class DynamicListView(ListView):
     @staticmethod
     def nice_page_range(page_range, current_page):
         """
-        Returns a page range
+        Returns a page range with only the needed pages in it.
 
         :param page_range:
         :param current_page:
@@ -305,10 +305,15 @@ class DynamicListView(ListView):
         """
         display_around = 2
         if len(page_range) > display_around:
-            start = 0 if current_page - display_around - 1 < 0 else current_page - display_around - 1
-            end = None if current_page + display_around > len(page_range) else current_page + display_around
-            page_range = page_range[start:end]
-
+            # determine new start in range
+            start = current_page - display_around
+            if start < 1:
+                start = 1
+            # determine new end in range
+            end = current_page + display_around + 1
+            if end > len(page_range):
+                end = len(page_range) + 1
+            page_range = range(start, end)
         return page_range
 
     def get_context_data(self, **kwargs):
